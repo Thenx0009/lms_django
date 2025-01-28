@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+</head>
+<body>
+    <h2>Book List</h2>
+
+    <!-- Search Form -->
+    <form method="get" action="{% url 'book_list' %}">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    <ul>
+        {% for book in books %}
+            <li>
+                {{ book.title }} by {{ book.author }} (ISBN: {{ book.isbn }}) - Status: {{ book.status }}
+                {% if user.is_authenticated and user.groups.filter(name='Librarian').exists %}
+                    <a href="{% url 'edit_book' book.id %}">Edit</a> |
+                    <a href="{% url 'delete_book' book.id %}">Delete</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No books found.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated and user.groups.filter(name='Librarian').exists %}
+        <a href="{% url 'add_book' %}">Add New Book</a>
+    {% endif %}
+
+</body>
+</html>

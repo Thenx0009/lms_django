@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Borrowed Books</title>
+</head>
+<body>
+    <h2>Your Borrowed Books</h2>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <ul>
+        {% for record in borrow_records %}
+            <li>
+                {{ record.book.title }} - Borrow Date: {{ record.borrow_date }} - Due Date: {{ record.due_date }} - Status: {{ record.status }}
+                {% if record.status == 'Approved' %}
+                    {% if not record.return_date %}
+                        <a href="{% url 'mark_as_returned' record.id %}">Mark as Returned</a>
+                    {% endif %}
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>You have not borrowed any books.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

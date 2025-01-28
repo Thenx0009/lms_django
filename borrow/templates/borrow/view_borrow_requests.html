@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Borrowing Records</title>
+</head>
+<body>
+    <h2>Manage Borrowing Records</h2>
+
+    <ul>
+        {% for record in borrow_records %}
+            <li>
+                {{ record.book.title }} - Borrower: {{ record.borrower.name }} - Borrow Date: {{ record.borrow_date }} - Due Date: {{ record.due_date }}
+                {% if record.status == 'Pending' %}
+                    <a href="{% url 'approve_borrowing' record.id %}">Approve</a> |
+                    <a href="{% url 'reject_borrowing' record.id %}">Reject</a>
+                {% elif record.status == 'Approved' and not record.return_date %}
+                    <a href="{% url 'mark_as_returned' record.id %}">Mark as Returned</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No borrowing records found.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

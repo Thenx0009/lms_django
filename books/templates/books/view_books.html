@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>All Books</h2>
+<form method="GET">
+    <label for="genre">Genre:</label>
+    <input type="text" id="genre" name="genre" value="{{ request.GET.genre }}">
+    
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+        <option value="">All</option>
+        <option value="Available" {% if request.GET.status == 'Available' %}selected{% endif %}>Available</option>
+        <option value="Borrowed" {% if request.GET.status == 'Borrowed' %}selected{% endif %}>Borrowed</option>
+    </select>
+    
+    <button type="submit">Filter</button>
+</form>
+
+<ul>
+    {% for book in books %}
+        <li>{{ book.title }} by {{ book.author }} - {{ book.status }} 
+            <a href="{% url 'edit_book' book.id %}">Edit</a> |
+            <a href="{% url 'delete_book' book.id %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No books available.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
