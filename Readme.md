@@ -3,7 +3,7 @@
 1. Clone the Repository
 ```bash
  git clone https://github.com/Thenx0009/lms_django.git
- cd library_system
+ cd lms_django
  ```
 
 2. Create & Activate Virtual Environment
